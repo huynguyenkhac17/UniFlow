@@ -1,0 +1,15 @@
+/*
+ * This file has been created by the Vaadin Theme Editor. Please note that
+ * manual changes to individual CSS properties may be overwritten by the theme editor.
+ */
+vaadin-grid {
+  border-style:solid;
+  border-width:2px;
+}
+
+vaadin-grid::part(body-cell) { font-size:var(--lumo-font-size-s); }
+
+vaadin-grid::part(header-cell) { --lumo-font-size-s:var(--lumo-font-size-l); }
+
+vaadin-grid::part(selected-row-cell) { font-weight:bold; }
+
