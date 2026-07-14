@@ -9,6 +9,10 @@
   background-color: dodgerblue;
 }
 
+vaadin-grid::part(fail) {
+  color: red;
+}
+
 .nav-link {
   display: block;
   width: 100%;

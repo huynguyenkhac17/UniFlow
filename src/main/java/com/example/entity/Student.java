@@ -16,12 +16,12 @@ public class Student implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "Tên không được để trống!")
     @Column(name = "name")
     private String name;
 
-    @NotBlank
-    @Email
+    @NotBlank(message = "Email không được để trống!")
+    @Email(message = "Email sai định dạng!")
     @Column(name = "mail",  unique = true)
     private String mail;
 

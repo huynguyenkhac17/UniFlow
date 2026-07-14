@@ -72,6 +72,8 @@ public class EnrollmentView extends VerticalLayout {
         grid.addColumn(EnrollmentDto::getGrade).setHeader("Điểm").setAutoWidth(true);
         grid.setSizeFull();
 
+        grid.setPartNameGenerator(dto -> (dto.getGrade() != null && dto.getGrade() < 4) ? "fail" : null); // điều kiện để tô fail điểm
+
         grid.asSingleSelect().addValueChangeListener(e -> editEnrollment(e.getValue()));
     }
 
@@ -82,6 +84,8 @@ public class EnrollmentView extends VerticalLayout {
         student.setItems(allStudents);
         student.setItemLabelGenerator(Student::getName);  // hiện tên thay vì toString mặc định
         student.setPlaceholder("Chọn sinh viên");
+
+
         subject.setItems(allSubjects);
         subject.setItemLabelGenerator(Subject::getName);
         subject.setPlaceholder("Chọn môn học");
@@ -147,8 +151,8 @@ public class EnrollmentView extends VerticalLayout {
 
     // Không cho sửa khóa chính
     private void setKeyReadOnly(boolean ro) {
-        student.setReadOnly(ro); 
-        subject.setReadOnly(ro); 
+        student.setReadOnly(ro);
+        subject.setReadOnly(ro);
         semester.setReadOnly(ro);
     }
 
@@ -156,13 +160,30 @@ public class EnrollmentView extends VerticalLayout {
         Student s = student.getValue();
         Subject sub = subject.getValue();
         String sem = semester.getValue();
-        if (s == null || sub == null || sem == null || sem.isBlank()) {
-            Notification.show("Chọn sinh viên, môn học và nhập học kỳ");
+        Double g = grade.getValue();
+        if (s == null
+                || sub == null
+                || sem == null || sem.isBlank()
+        ) {
+            Notification.show("Vui lòng điền đầy đủ thông tin!");
             return;
         }
-        enrollmentService.save(s, sub, sem, grade.getValue());
-        updateList(); closeEditor();
-        Notification.show("Đã lưu đăng kí");
+
+        if (g != null && (g < 0 || g > 10)) {
+            Notification.show("Điểm phải từ 0 đến 10!");
+            return;
+        }
+
+        if (g != null && Math.abs(g * 10 - Math.round(g * 10)) > 1e-9) {
+            Notification.show("Điểm chỉ được có 1 chữ số thập phân.");
+            return;
+        }
+
+        enrollmentService.save(s, sub, sem, g);
+
+        updateList();
+        closeEditor();
+        Notification.show("Đã lưu đăng kí!");
     }
 
     private void deleteEnrollment() {
@@ -191,6 +212,7 @@ public class EnrollmentView extends VerticalLayout {
         return options;
     }
 
+    // tìm trong list trên ram (ko cần truy vấn db)
     private Student findStudent(Long id) {
         return allStudents.stream().filter(x -> x.getId().equals(id)).findFirst().orElse(null);
     }

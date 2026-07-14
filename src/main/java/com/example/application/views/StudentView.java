@@ -16,14 +16,12 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.binder.Binder;
-import com.vaadin.flow.data.binder.ValidationException;
+import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.provider.ListDataProvider;
-import com.vaadin.flow.data.validator.EmailValidator;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.RouteAlias;
+import org.jspecify.annotations.NonNull;
 
 import java.text.Normalizer;
 
@@ -48,7 +46,8 @@ public class StudentView  extends VerticalLayout {
     private final Button cancel = new Button("Hủy");
     private final Div form = new Div();
 
-    private final Binder<Student> binder = new Binder<>(Student.class);
+//    private final Binder<Student> binder = new Binder<>(Student.class);
+    private final BeanValidationBinder<Student> binder = new BeanValidationBinder<>(Student.class);
     private ListDataProvider<Student> dataProvider; // Dùng list để sort
 
     // Dùng 1 biến editing để lưu trạng thái trước khi save
@@ -103,20 +102,17 @@ public class StudentView  extends VerticalLayout {
     }
 
     private void saveStudent() {
-        try {
-            binder.writeBean(editing); // binder chỉ cập nhật object
-
-            studentService.save(editing); // service mới lưu xuống db
-            refreshData();
-            closeEditor();
-            Notification.show("Đã lưu!");
-            
-        } catch (ValidationException e) {
-            Notification.show("Dữ liệu không hợp lệ: " + e);
-        }
+             if (binder.writeBeanIfValid(editing)) {
+                 studentService.save(editing); // service mới lưu xuống db
+                 refreshData();
+                 closeEditor();
+                 Notification.show("Đã lưu!");
+             } else {
+                 Notification.show("Dữ liệu không hợp lệ, vui lòng kiểm tra lại!");
+             }
     }
 
-    public static String normalize(String s) {
+    public static @NonNull String normalize(String s) {
         return Normalizer.normalize(s, Normalizer.Form.NFD)
                 .replaceAll("\\p{M}", "")
                 .toLowerCase();
@@ -126,7 +122,7 @@ public class StudentView  extends VerticalLayout {
         // Thêm các cột vào bảng
         Grid.Column<Student> nameColumn = grid.addColumn(Student::getName)
                                                 .setHeader("Tên").setAutoWidth(true)
-                                                .setSortable(true)
+                                                .setSortable(true)                    // bật sort cho cột, so sánh theo tên.
                                                 .setComparator(Student::getName);
 
         Grid.Column<Student> mailColumn = grid.addColumn(Student::getMail)
@@ -165,10 +161,12 @@ public class StudentView  extends VerticalLayout {
 
     private void configureForm() {
         // Nối mỗi ô với thuộc tính của Student + validate;
-        binder.forField(name).asRequired("Tên không đuợc trống!").bind(Student::getName, Student::setName);
-        binder.forField(mail).asRequired("Emali không được trống trống!").withValidator(new EmailValidator("Mail không hợp lệ!")).bind(Student::getMail, Student::setMail);
-        binder.forField(dob).bind(Student::getDob, Student::setDob);
-        binder.forField(password).bind(Student::getPassword, Student::setPassword);
+//        binder.forField(name).bind("name");
+//        binder.forField(mail).bind("mail");
+//        binder.forField(dob).bind("dob");
+//        binder.forField(password).bind("password");
+
+        binder.bindInstanceFields(this);
 
         save.addClickListener(e -> saveStudent());
         delete.addClickListener(e -> deleteStudent());
