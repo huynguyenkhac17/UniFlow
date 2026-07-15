@@ -8,7 +8,10 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import jakarta.annotation.security.PermitAll;
 
+
+@PermitAll // cho mọi user đã đăng nhập
 public class MainLayout extends AppLayout { // Cho 2 vùng NavBar và Drawer
 
     public MainLayout() {

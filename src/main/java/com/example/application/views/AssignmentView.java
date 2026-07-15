@@ -18,11 +18,13 @@ import com.example.entity.Teacher;
 import com.example.service.AssignmentService;
 import com.example.service.SubjectService;
 import com.example.service.TeacherService;
+import jakarta.annotation.security.RolesAllowed;
 
 import java.util.List;
 
 @Route(value = "assignment", layout = MainLayout.class)
 @PageTitle("Assignment | UniFlow")
+@RolesAllowed("ADMIN")
 public class AssignmentView extends VerticalLayout {
 
     private final AssignmentService assignmentService;

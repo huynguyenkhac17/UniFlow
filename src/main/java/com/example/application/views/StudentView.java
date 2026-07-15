@@ -21,6 +21,7 @@ import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import jakarta.annotation.security.RolesAllowed;
 import org.jspecify.annotations.NonNull;
 
 import java.text.Normalizer;
@@ -28,6 +29,7 @@ import java.text.Normalizer;
 @Route(value = "student", layout = MainLayout.class) 
 //@RouteAlias(value = "", layout = MainLayout.class) // vào luôn view này trong  route /
 @PageTitle("Student View | UniFlow")
+@RolesAllowed("ADMIN")
 public class StudentView  extends VerticalLayout {
     private final StudentService studentService;
     private final EnrollmentService enrollmentService;

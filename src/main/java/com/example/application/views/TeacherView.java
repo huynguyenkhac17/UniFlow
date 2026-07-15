@@ -20,9 +20,11 @@ import com.vaadin.flow.data.validator.EmailValidator;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import jakarta.annotation.security.RolesAllowed;
 
 @Route(value = "teacher", layout = MainLayout.class)
 @PageTitle("Teacher View | UniFlow")
+@RolesAllowed("ADMIN")
 public class TeacherView extends VerticalLayout {
 
     private final TeacherService teacherService;

@@ -18,6 +18,8 @@ import com.example.service.EnrollmentService;
 import com.example.service.StudentService;
 import com.example.service.SubjectService;
 import com.example.entity.EnrollmentId;
+import jakarta.annotation.security.RolesAllowed;
+
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +27,7 @@ import java.util.List;
 
 @Route(value = "enrollment", layout = MainLayout.class)
 @PageTitle("Enrollment | UniFlow")
+@RolesAllowed("ADMIN")
 public class EnrollmentView extends VerticalLayout {
 
     private final EnrollmentService enrollmentService;

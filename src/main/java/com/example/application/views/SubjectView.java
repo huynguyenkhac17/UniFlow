@@ -19,9 +19,11 @@ import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import jakarta.annotation.security.RolesAllowed;
 
 @Route(value = "subject", layout = MainLayout.class)
 @PageTitle("Subject View | UniFlow")
+@RolesAllowed("ADMIN")
 public class SubjectView extends VerticalLayout {
 
     private final SubjectService subjectService;

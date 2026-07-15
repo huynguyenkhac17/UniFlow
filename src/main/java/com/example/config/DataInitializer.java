@@ -1,16 +1,9 @@
 package com.example.config;
 
-import com.example.entity.Assignment;
-import com.example.entity.Enrollment;
-import com.example.entity.Student;
-import com.example.entity.Subject;
-import com.example.entity.Teacher;
-import com.example.repository.AssignmentRepository;
-import com.example.repository.EnrollmentRepository;
-import com.example.repository.StudentRepository;
-import com.example.repository.SubjectRepository;
-import com.example.repository.TeacherRepository;
+import com.example.entity.*;
+import com.example.repository.*;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -29,17 +22,23 @@ public class DataInitializer implements CommandLineRunner {
     private final SubjectRepository subjectRepository;
     private final EnrollmentRepository enrollmentRepository;
     private final AssignmentRepository assignmentRepository;
+    private final AppUserRepository appUserRepository;
+    private final PasswordEncoder encoder;
 
     public DataInitializer(StudentRepository studentRepository,
                            TeacherRepository teacherRepository,
                            SubjectRepository subjectRepository,
                            EnrollmentRepository enrollmentRepository,
-                           AssignmentRepository assignmentRepository) {
+                           AssignmentRepository assignmentRepository,
+                           AppUserRepository appUserRepository,
+                           PasswordEncoder passwordEncoder) {
         this.studentRepository = studentRepository;
         this.teacherRepository = teacherRepository;
         this.subjectRepository = subjectRepository;
         this.enrollmentRepository = enrollmentRepository;
         this.assignmentRepository = assignmentRepository;
+        this.appUserRepository = appUserRepository;
+        this.encoder = passwordEncoder;
     }
 
     @Override
@@ -82,6 +81,23 @@ public class DataInitializer implements CommandLineRunner {
             assignmentRepository.save(new Assignment(teachers.get(0), subjects.get(1)));
             if (teachers.size() >= 2 && subjects.size() >= 3) {
                 assignmentRepository.save(new Assignment(teachers.get(1), subjects.get(2)));
+            }
+        }
+
+        if (appUserRepository.count() == 0) {
+            appUserRepository.save(new AppUser("admin@hus.edu.vn", encoder.encode("admin123"), Role.ADMIN)); // admin mặc định
+
+
+            //Lưu các giáo viên và sinh viên với tk mặc định là email và mk mặc định
+            for (Teacher t : teachers) {
+                AppUser u = new AppUser(t.getMail(), encoder.encode("123456"), Role.TEACHER);
+                u.setTeacher(t);
+                appUserRepository.save(u);
+            }
+            for (Student s : students) {
+                AppUser u = new AppUser(s.getMail(), encoder.encode("123456"), Role.STUDENT);
+                u.setStudent(s);
+                appUserRepository.save(u);
             }
         }
     }
