@@ -1,5 +1,7 @@
 package com.example.entity;
 
+import com.example.entity.account.AccountOwner;
+import com.example.entity.account.AppUser;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -8,7 +10,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "teachers")
-public class Teacher implements Serializable {
+public class Teacher implements Serializable, AccountOwner {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,8 +46,21 @@ public class Teacher implements Serializable {
     public void setId(Long teacherId) { this.teacherId = teacherId;}
     public String getName() { return this.name;}
     public void setName(String name) { this.name = name;}
-    public String getMail() { return this.mail;}
-    public void setMail(String mail) { this.mail = mail;}
+
+    @Override
+    public String getEmail() { return this.mail;}
+
+    @Override
+    public Role getRole() {
+        return Role.TEACHER;
+    }
+
+    @Override
+    public void linkTo(AppUser user) {
+        user.setTeacher(this);
+    }
+
+    public void setEmail(String mail) { this.mail = mail;}
     public String getPassword() { return this.password;}
     public void setPassword(String password) { this.password = password;}
     public String getDepartment() { return this.department;}

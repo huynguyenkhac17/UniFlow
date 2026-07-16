@@ -1,5 +1,8 @@
-package com.example.entity;
+package com.example.entity.account;
 
+import com.example.entity.Role;
+import com.example.entity.Student;
+import com.example.entity.Teacher;
 import jakarta.persistence.*;
 import java.io.Serializable;
 
@@ -22,12 +25,12 @@ public class AppUser implements Serializable {
     @Enumerated(EnumType.STRING) // mặc định là đánh số
     private Role role;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "teacher_id", unique = true)
     private Teacher teacher;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id", unique = true)
     private Student student;
 
     public AppUser(String email, String passwordHash, Role role) {

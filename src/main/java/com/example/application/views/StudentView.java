@@ -29,7 +29,7 @@ import java.text.Normalizer;
 @Route(value = "student", layout = MainLayout.class) 
 //@RouteAlias(value = "", layout = MainLayout.class) // vào luôn view này trong  route /
 @PageTitle("Student View | UniFlow")
-@RolesAllowed("ADMIN")
+@RolesAllowed({"ADMIN"})
 public class StudentView  extends VerticalLayout {
     private final StudentService studentService;
     private final EnrollmentService enrollmentService;
@@ -127,7 +127,7 @@ public class StudentView  extends VerticalLayout {
                                                 .setSortable(true)                    // bật sort cho cột, so sánh theo tên.
                                                 .setComparator(Student::getName);
 
-        Grid.Column<Student> mailColumn = grid.addColumn(Student::getMail)
+        Grid.Column<Student> mailColumn = grid.addColumn(Student::getEmail)
                                                 .setHeader("Email").setAutoWidth(true);
 
         Grid.Column<Student> dodColumn = grid.addColumn(Student::getDob)

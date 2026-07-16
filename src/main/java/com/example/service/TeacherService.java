@@ -1,19 +1,20 @@
 package com.example.service;
 
-import org.springframework.stereotype.Service;
 import com.example.entity.Teacher;
 import com.example.repository.TeacherRepository;
-
 import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class TeacherService {
     private final TeacherRepository teacherRepository;
+    private final AppUserService appUserService;
 
-    public TeacherService(TeacherRepository teacherRepository) {
+    public TeacherService(TeacherRepository teacherRepository, AppUserService appUserService) {
         this.teacherRepository = teacherRepository;
+        this.appUserService = appUserService;
     }
 
     public Teacher findById(Long id) {
@@ -42,32 +43,15 @@ public class TeacherService {
 
     @Transactional
     public Teacher save(Teacher teacher) {
-        return teacherRepository.save(teacher);
+        Teacher saved = teacherRepository.save(teacher);
+        appUserService.sync(teacher);
+        return saved;
     }
 
     @Transactional
     public void delete(Teacher teacher) {
+        appUserService.deleteAccount(teacher);
         teacherRepository.delete(teacher);
     }
 
-    public Teacher updateTeacher(Long id, String name, String mail, String department, String password) {
-        Teacher teacher = findById(id);
-        if (teacher != null) {
-            teacher.setName(name);
-            teacher.setMail(mail);
-            teacher.setDepartment(department);
-            teacher.setPassword(password);
-            return teacherRepository.save(teacher);
-        }
-        return null;
-    }
-
-    public Teacher createTeacher(String name, String mail, String department, String password) {
-        Teacher teacher = new Teacher();
-        teacher.setName(name);
-        teacher.setMail(mail);
-        teacher.setDepartment(department);
-        teacher.setPassword(password);
-        return teacherRepository.save(teacher);
-    }
 }

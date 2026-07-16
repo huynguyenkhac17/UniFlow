@@ -1,7 +1,7 @@
 package com.example.dto;
 
 public class EnrollmentDto {
-    private final Long studentId;      // giữ khóa để edit/delete
+    private final Long studentId;      // giữ khóa để edit/deleteAccount
     private final Long subjectId;
     private final String studentName;  // để hiển thị
     private final String subjectName;

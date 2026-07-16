@@ -1,76 +1,84 @@
 @import "./theme-editor.css";
 /* Example: CSS class name to center align the content . */
 .centered-content {
-  margin: 0 auto;
-  max-width: 250px;
+    margin: 0 auto;
+    max-width: 250px;
 }
 
 .main-layout-app-layout::part(navbar) {
-  background-color: dodgerblue;
+    background-color: dodgerblue;
 }
 
 vaadin-grid::part(fail) {
-  color: red;
+    color: red;
+}
+
+.app-logout {
+    display: block;
+    width: 30%
 }
 
 .nav-link {
-  display: block;
-  width: 100%;
-  box-sizing: border-box;
-  padding: 16px 20px;
-  /*margin: 6px 0;                              !* khoảng cách giữa các box *!*/
-  /*border-radius: var(--lumo-border-radius-m); !* bo góc box *!*/
-  border-bottom: 1px solid var(--lumo-contrast-10pct);
-  background: var(--lumo-contrast-5pct);      /* nền box (trạng thái nghỉ) */
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 16px 20px;
+    /*margin: 6px 0;                              !* khoảng cách giữa các box *!*/
+    /*border-radius: var(--lumo-border-radius-m); !* bo góc box *!*/
+    border-bottom: 1px solid var(--lumo-contrast-10pct);
+    background: var(--lumo-contrast-5pct); /* nền box (trạng thái nghỉ) */
 
-  text-align: center;
-  text-decoration: none;
-  color: var(--lumo-body-text-color);
+    text-align: center;
+    text-decoration: none;
+    color: var(--lumo-body-text-color);
 
-  transition: background 0.2s, transform 0.15s, box-shadow 0.15s;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.15s;
 }
+
 .nav-link:hover {
-  background: var(--lumo-contrast-10pct);
-  transform: translateY(-4px) scale(1.1);                 /* nhấc lên 4px, phóng to nhẹ*/
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.16);  /* đổ bóng tạo chiều sâu */
+    background: var(--lumo-contrast-10pct);
+    transform: translateY(-4px) scale(1.1); /* nhấc lên 4px, phóng to nhẹ*/
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.16); /* đổ bóng tạo chiều sâu */
 }
 
 .stat-card {
-  flex: 1;
-  padding: var(--lumo-space-m);
-  border-radius: var(--lumo-border-radius-l);
-  background: var(--lumo-contrast-5pct);
-  text-align: center;
+    flex: 1;
+    padding: var(--lumo-space-m);
+    border-radius: var(--lumo-border-radius-l);
+    background: var(--lumo-contrast-5pct);
+    text-align: center;
 }
+
 .stat-number {
-  display:block;
-  font-size: 2.2rem;
-  font-weight: 700;
-  color: var(--lumo-primary-text-color);
+    display: block;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--lumo-primary-text-color);
 }
-.stat-label  {
-  color: var(--lumo-secondary-text-color);
+
+.stat-label {
+    color: var(--lumo-secondary-text-color);
 }
 
 /* Example: the style is applied only to the textfields which have the `bordered` class name. */
 vaadin-text-field.bordered::part(input-field) {
-  box-shadow: inset 0 0 0 1px var(--lumo-contrast-30pct);
-  background-color: var(--lumo-base-color);
+    box-shadow: inset 0 0 0 1px var(--lumo-contrast-30pct);
+    background-color: var(--lumo-base-color);
 }
 
 html {
-  /* màu thương hiệu */
-  --uni-green: #3eff70;          /* xanh lá giống Apple */
-  --uni-green-dark: #02ba32;
+    /* màu thương hiệu */
+    --uni-green: #3eff70; /* xanh lá giống Apple */
+    --uni-green-dark: #02ba32;
 
-  /* map vào biến Lumo → mọi nút/nhấn mạnh đổi theo */
-  --lumo-primary-color: var(--uni-green);
-  --lumo-primary-text-color: var(--uni-green-dark);
+    /* map vào biến Lumo → mọi nút/nhấn mạnh đổi theo */
+    --lumo-primary-color: var(--uni-green);
+    --lumo-primary-text-color: var(--uni-green-dark);
 
-  /* web Apple: bo góc mềm, khoảng trắng rộng, font hệ thống */
-  --lumo-border-radius-m: 12px;
-  --lumo-border-radius-l: 18px;
-  --lumo-space-l: 2rem;
-  --lumo-space-xl: 3.5rem;
-  --lumo-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    /* web Apple: bo góc mềm, khoảng trắng rộng, font hệ thống */
+    --lumo-border-radius-m: 12px;
+    --lumo-border-radius-l: 18px;
+    --lumo-space-l: 2rem;
+    --lumo-space-xl: 3.5rem;
+    --lumo-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }

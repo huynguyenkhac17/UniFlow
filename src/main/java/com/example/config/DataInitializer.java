@@ -1,6 +1,7 @@
 package com.example.config;
 
 import com.example.entity.*;
+import com.example.entity.account.AppUser;
 import com.example.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -90,12 +91,12 @@ public class DataInitializer implements CommandLineRunner {
 
             //Lưu các giáo viên và sinh viên với tk mặc định là email và mk mặc định
             for (Teacher t : teachers) {
-                AppUser u = new AppUser(t.getMail(), encoder.encode("123456"), Role.TEACHER);
+                AppUser u = new AppUser(t.getEmail(), encoder.encode("123456"), Role.TEACHER);
                 u.setTeacher(t);
                 appUserRepository.save(u);
             }
             for (Student s : students) {
-                AppUser u = new AppUser(s.getMail(), encoder.encode("123456"), Role.STUDENT);
+                AppUser u = new AppUser(s.getEmail(), encoder.encode("123456"), Role.STUDENT);
                 u.setStudent(s);
                 appUserRepository.save(u);
             }

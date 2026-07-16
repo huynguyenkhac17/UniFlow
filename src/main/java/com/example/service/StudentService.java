@@ -1,20 +1,20 @@
 package com.example.service;
 
-import org.springframework.stereotype.Service;
-
 import com.example.entity.Student;
 import com.example.repository.StudentRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
 public class StudentService {
     private final StudentRepository studentRepository;
+    private final AppUserService appUserService;
 
-    public StudentService(StudentRepository studentRepository) {
+    public StudentService(StudentRepository studentRepository, AppUserService appUserService) {
         this.studentRepository = studentRepository;
+        this.appUserService = appUserService;
     }
 
     public Student findById(Long id) {
@@ -44,32 +44,15 @@ public class StudentService {
 
     @Transactional
     public Student save(Student student) {
-        return studentRepository.save(student);
+        Student saved = studentRepository.save(student);  // ko đc sync trước vì student chưa chắc đã tạo, có thể chưa có trong db sẽ lỗi
+        appUserService.sync(student); // cập nhật tài khoản nếu lưu thông tin
+        return saved;
     }
 
     @Transactional
     public void delete(Student student) {
+        appUserService.deleteAccount(student); // xóa tài khoản nếu xóa sinh viên.
         studentRepository.delete(student);
     }
 
-    public Student updateStudent(Long id, String name, String mail, LocalDate dob, String password) {
-        Student student = findById(id);
-        if (student != null) {
-            student.setName(name);
-            student.setMail(mail);
-            student.setDob(dob);
-            student.setPassword(password);
-            return studentRepository.save(student);
-        }
-        return null;
-    }
-
-    public Student createStudent(String name, String mail, LocalDate dob, String password) {
-        Student student = new Student();
-        student.setName(name);
-        student.setMail(mail);
-        student.setDob(dob);
-        student.setPassword(password);
-        return studentRepository.save(student);
-    }
 }

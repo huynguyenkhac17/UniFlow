@@ -10,6 +10,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 
 import java.util.Map;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Route(value = "", layout = MainLayout.class)
 @PageTitle("Dashboard | UniFlow")
-@RolesAllowed("ADMIN")
+@PermitAll
 public class DashboardView extends VerticalLayout {
     private final StudentService studentService;
     private final TeacherService teacherService;

@@ -1,6 +1,6 @@
-package com.example.service;
+package com.example.security;
 
-import com.example.entity.AppUser;
+import com.example.entity.account.AppUser;
 import com.example.repository.AppUserRepository;
 import org.jspecify.annotations.NonNull;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

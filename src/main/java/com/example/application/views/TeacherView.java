@@ -1,8 +1,8 @@
 package com.example.application.views;
 
 import com.example.entity.Teacher;
-import com.example.service.TeacherService;
 import com.example.service.AssignmentService;
+import com.example.service.TeacherService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -24,7 +24,7 @@ import jakarta.annotation.security.RolesAllowed;
 
 @Route(value = "teacher", layout = MainLayout.class)
 @PageTitle("Teacher View | UniFlow")
-@RolesAllowed("ADMIN")
+@RolesAllowed({"ADMIN"})
 public class TeacherView extends VerticalLayout {
 
     private final TeacherService teacherService;
@@ -68,7 +68,7 @@ public class TeacherView extends VerticalLayout {
 
     private void configureGrid() {
         grid.addColumn(Teacher::getName).setHeader("Tên").setAutoWidth(true);
-        grid.addColumn(Teacher::getMail).setHeader("Mail").setAutoWidth(true);
+        grid.addColumn(Teacher::getEmail).setHeader("Mail").setAutoWidth(true);
         grid.addColumn(Teacher::getDepartment).setHeader("Khoa").setAutoWidth(true);
         grid.setSizeFull();
 
@@ -77,7 +77,7 @@ public class TeacherView extends VerticalLayout {
 
     private void configureForm() {
         binder.forField(name).asRequired("Tên không được trống!").bind(Teacher::getName, Teacher::setName);
-        binder.forField(mail).asRequired("Email không được trống!").withValidator(new EmailValidator("Mail không hợp lệ!")).bind(Teacher::getMail, Teacher::setMail);
+        binder.forField(mail).asRequired("Email không được trống!").withValidator(new EmailValidator("Mail không hợp lệ!")).bind(Teacher::getEmail, Teacher::setEmail);
         binder.forField(department).bind(Teacher::getDepartment, Teacher::setDepartment);
         binder.forField(password).bind(Teacher::getPassword, Teacher::setPassword);
 
