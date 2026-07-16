@@ -5,8 +5,11 @@ import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.RouterLink;
@@ -33,32 +36,36 @@ public class MainLayout extends AppLayout { // Cho 3 vùng: thanh ngang NavBar b
     public MainLayout(AccessAnnotationChecker accessChecker, AuthenticationContext authContext) { // Kiểm tra quyền trước khi tạo routerlink
         this.accessChecker = accessChecker;
 
-        H1 logo = new H1("UniFlow");
+        Span uni = new Span("Uni");
+        Span flow = new Span("Flow");
+        flow.addClassName("logo-accent");
+
+        H1 logo = new H1(uni, flow);
         logo.addClassName("app-logo");
 
         DrawerToggle drawerToggle = new DrawerToggle();
 
         String name = authContext.getPrincipalName().orElse("?"); // lấy username từ security
         String role = String.join(", ", authContext.getGrantedRoles());
-        H3 userInfo = new H3(name + " (" + role + ")");
 
-        Button logout = new Button("Đăng xuất");
+        Span userInfo = new Span(name + " * " + role);
+        userInfo.addClassName("user-info");
+
+        Button logout = new Button("Đăng xuất", VaadinIcon.SIGN_OUT.create());
         logout.addClassName("app-logout");
-        logout.setWidth("100%");
+        logout.addThemeVariants(ButtonVariant.LUMO_SUCCESS, ButtonVariant.LUMO_ERROR);
         logout.addClickListener(e -> authContext.logout()); // xóa session trong context hiện tại
 
-        VerticalLayout roleLayout = new VerticalLayout(userInfo, logout); // vùng thông tin và nút đăng xuất bên phải
-        roleLayout.setPadding(false);
-        roleLayout.setSpacing(false);
-        roleLayout.setWidth(null);
-        roleLayout.setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.CENTER);
+        HorizontalLayout userBox = new HorizontalLayout(userInfo, logout);
+        userBox.setAlignItems(FlexComponent.Alignment.CENTER);
+        userBox.addClassName("user-box");
+        userBox.setPadding(true);
 
         HorizontalLayout navBar = new HorizontalLayout();
 
-        navBar.setWidthFull();
         navBar.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
-
-        navBar.add(drawerToggle, logo, roleLayout);
+        navBar.setWidthFull();
+        navBar.add(drawerToggle, logo, userBox);
         navBar.expand(logo);
 
         addToNavbar(navBar);

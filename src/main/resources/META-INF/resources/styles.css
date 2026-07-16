@@ -5,8 +5,38 @@
     max-width: 250px;
 }
 
+.user-info {
+    padding: 4px 12px;
+    border-radius: 999px;                      /* bo tròn kiểu viên thuốc */
+    background: var(--lumo-contrast-5pct);
+    border: 1px solid var(--lumo-contrast-10pct);
+    font-size: var(--lumo-font-size-s);
+    font-weight: 600;
+    color: var(--lumo-secondary-text-color);
+    white-space: nowrap;
+}
+
 .main-layout-app-layout::part(navbar) {
-    background-color: dodgerblue;
+    background-color: var(--lumo-base-color);
+    border-bottom: 1px solid var(--lumo-contrast-10pct);
+    height: 64px;
+    padding: 0 var(--lumo-space-m);
+}
+
+.logo-accent {
+    color: var(--lumo-body-text-color);
+}
+
+.app-logo {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--lumo-primary-text-color);   /* xanh thương hiệu */
+}
+
+.user-box {
+    gap: 0.5rem;
 }
 
 vaadin-grid::part(fail) {
@@ -14,8 +44,7 @@ vaadin-grid::part(fail) {
 }
 
 .app-logout {
-    display: block;
-    width: 30%
+    flex: none;
 }
 
 .nav-link {
@@ -27,14 +56,13 @@ vaadin-grid::part(fail) {
     /*border-radius: var(--lumo-border-radius-m); !* bo góc box *!*/
     border-bottom: 1px solid var(--lumo-contrast-10pct);
     background: var(--lumo-contrast-5pct); /* nền box (trạng thái nghỉ) */
-
     text-align: center;
     text-decoration: none;
     color: var(--lumo-body-text-color);
-
     transition: background 0.2s, transform 0.15s, box-shadow 0.15s;
 }
 
+/* Khi di chuột qua*/
 .nav-link:hover {
     background: var(--lumo-contrast-10pct);
     transform: translateY(-4px) scale(1.1); /* nhấc lên 4px, phóng to nhẹ*/
@@ -68,7 +96,7 @@ vaadin-text-field.bordered::part(input-field) {
 
 html {
     /* màu thương hiệu */
-    --uni-green: #3eff70; /* xanh lá giống Apple */
+    --uni-green: #3eff70; /* xanh lá coppy giống Apple */
     --uni-green-dark: #02ba32;
 
     /* map vào biến Lumo → mọi nút/nhấn mạnh đổi theo */
