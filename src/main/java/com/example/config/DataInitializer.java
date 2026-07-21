@@ -2,6 +2,9 @@ package com.example.config;
 
 import com.example.entity.*;
 import com.example.entity.account.AppUser;
+import com.example.entity.person.Role;
+import com.example.entity.person.implement.Student;
+import com.example.entity.person.implement.Teacher;
 import com.example.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -45,20 +48,20 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) {
         if (studentRepository.count() == 0) {
-            studentRepository.save(new Student("Nguyễn Văn An", "an@hus.edu.vn", "123456", LocalDate.of(2004, 3, 12)));
-            studentRepository.save(new Student("Trần Thị Bình", "binh@hus.edu.vn", "123456", LocalDate.of(2003, 9, 1)));
-            studentRepository.save(new Student("Lê Hoàng Cường", "cuong@hus.edu.vn", "123456", LocalDate.of(2004, 12, 25)));
+            studentRepository.save(new Student("Nguyễn Văn An", "an@hus.edu.vn", LocalDate.of(2004, 3, 12)));
+            studentRepository.save(new Student("Trần Thị Bình", "binh@hus.edu.vn",  LocalDate.of(2003, 9, 1)));
+            studentRepository.save(new Student("Lê Hoàng Cường", "cuong@hus.edu.vn", LocalDate.of(2004, 12, 25)));
         }
 
         if (teacherRepository.count() == 0) {
-            teacherRepository.save(new Teacher("TS. Phạm Minh Đức", "duc@hus.edu.vn", "123456", "Toán - Cơ - Tin học"));
-            teacherRepository.save(new Teacher("PGS. Vũ Thị Hoa", "hoa@hus.edu.vn", "123456", "Vật lý"));
+            teacherRepository.save(new Teacher("TS. Phạm Minh Đức", "duc@hus.edu.vn","Toán - Cơ - Tin học"));
+            teacherRepository.save(new Teacher("PGS. Vũ Thị Hoa", "hoa@hus.edu.vn", "Vật lý"));
         }
 
         if (subjectRepository.count() == 0) {
-            subjectRepository.save(new Subject(null, "Giải tích 1", "4"));
-            subjectRepository.save(new Subject(null, "Đại số tuyến tính", "3"));
-            subjectRepository.save(new Subject(null, "Lập trình hướng đối tượng", "5"));
+            subjectRepository.save(new Subject("Giải tích 1", 4));
+            subjectRepository.save(new Subject("Đại số tuyến tính", 3));
+            subjectRepository.save(new Subject("Lập trình hướng đối tượng", 5));
         }
 
         // Bảng nối: chỉ seed khi đã có SV/GV/Môn và bảng nối còn trống
@@ -68,9 +71,9 @@ public class DataInitializer implements CommandLineRunner {
 
         if (enrollmentRepository.count() == 0 && !students.isEmpty() && subjects.size() >= 2) {
             // (SV0 - Môn0 - HK1 - 8.5), (SV0 - Môn1 - HK1 - 7.0), (SV1 - Môn0 - HK1 - 9.0)
-            Enrollment e1 = new Enrollment(students.get(0), subjects.get(0), "2024-1"); e1.setGrade(8.5);
-            Enrollment e2 = new Enrollment(students.get(0), subjects.get(1), "2024-1"); e2.setGrade(7.0);
-            Enrollment e3 = new Enrollment(students.get(1), subjects.get(0), "2024-1"); e3.setGrade(9.0);
+            Enrollment e1 = new Enrollment(students.getFirst(), subjects.get(0), "2024-1"); e1.setGrade(8.5);
+            Enrollment e2 = new Enrollment(students.getFirst(), subjects.get(1), "2024-1"); e2.setGrade(7.0);
+            Enrollment e3 = new Enrollment(students.getFirst(), subjects.get(0), "2024-1"); e3.setGrade(9.0);
             enrollmentRepository.save(e1);
             enrollmentRepository.save(e2);
             enrollmentRepository.save(e3);
@@ -92,12 +95,12 @@ public class DataInitializer implements CommandLineRunner {
             //Lưu các giáo viên và sinh viên với tk mặc định là email và mk mặc định
             for (Teacher t : teachers) {
                 AppUser u = new AppUser(t.getEmail(), encoder.encode("123456"), Role.TEACHER);
-                u.setTeacher(t);
+                u.setPerson(t);
                 appUserRepository.save(u);
             }
             for (Student s : students) {
                 AppUser u = new AppUser(s.getEmail(), encoder.encode("123456"), Role.STUDENT);
-                u.setStudent(s);
+                u.setPerson(s);
                 appUserRepository.save(u);
             }
         }

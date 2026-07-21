@@ -14,7 +14,7 @@ import com.vaadin.flow.router.Route;
 import com.example.dto.AssignmentDto;
 import com.example.entity.AssignmentId;
 import com.example.entity.Subject;
-import com.example.entity.Teacher;
+import com.example.entity.person.implement.Teacher;
 import com.example.service.AssignmentService;
 import com.example.service.SubjectService;
 import com.example.service.TeacherService;

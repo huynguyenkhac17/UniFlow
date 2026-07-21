@@ -12,7 +12,7 @@ import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.example.dto.EnrollmentDto;
-import com.example.entity.Student;
+import com.example.entity.person.implement.Student;
 import com.example.entity.Subject;
 import com.example.service.EnrollmentService;
 import com.example.service.StudentService;
@@ -96,7 +96,9 @@ public class EnrollmentView extends VerticalLayout {
         semester.setItems(semesterOptions());
         semester.setPlaceholder("Chọn học kỳ");
 
-        grade.setMin(0); grade.setMax(10); grade.setStep(0.1);
+        grade.setMin(0);
+        grade.setMax(10);
+        grade.setStep(0.1);
 
         save.addClickListener(e -> saveEnrollment());
         delete.addClickListener(e -> deleteEnrollment());
@@ -192,7 +194,8 @@ public class EnrollmentView extends VerticalLayout {
     private void deleteEnrollment() {
         if (editing != null) {
             enrollmentService.delete(new EnrollmentId(editing.getStudentId(), editing.getSubjectId(), editing.getSemester()));
-            updateList(); closeEditor();
+            updateList();
+            closeEditor();
             Notification.show("Đã xóa");
         }
     }

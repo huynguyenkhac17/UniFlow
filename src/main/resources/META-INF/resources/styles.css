@@ -7,7 +7,7 @@
 
 .user-info {
     padding: 4px 12px;
-    border-radius: 999px;                      /* bo tròn kiểu viên thuốc */
+    border-radius: 999px; /* bo tròn kiểu viên thuốc */
     background: var(--lumo-contrast-5pct);
     border: 1px solid var(--lumo-contrast-10pct);
     font-size: var(--lumo-font-size-s);
@@ -32,7 +32,7 @@
     font-size: 1.4rem;
     font-weight: 800;
     letter-spacing: -0.02em;
-    color: var(--lumo-primary-text-color);   /* xanh thương hiệu */
+    color: var(--lumo-primary-text-color); /* xanh thương hiệu */
 }
 
 .user-box {

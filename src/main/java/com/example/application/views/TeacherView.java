@@ -1,6 +1,6 @@
 package com.example.application.views;
 
-import com.example.entity.Teacher;
+import com.example.entity.person.implement.Teacher;
 import com.example.service.AssignmentService;
 import com.example.service.TeacherService;
 import com.vaadin.flow.component.button.Button;
@@ -14,6 +14,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.data.validator.EmailValidator;
@@ -44,7 +45,10 @@ public class TeacherView extends VerticalLayout {
     private final Button cancel = new Button("Hủy");
     private final Div form = new Div();
 
-    private final Binder<Teacher> binder = new Binder<>(Teacher.class);
+//    private final Binder<Teacher> binder = new Binder<>(Teacher.class);
+
+    // Dùng BeanValidationBinder tự động validate với các annotation của Entity, ko cần require thủ công
+    private final BeanValidationBinder<Teacher> binder = new BeanValidationBinder<>(Teacher.class);
     private Teacher editing;
 
     public TeacherView(TeacherService teacherService, AssignmentService assignmentService) {
@@ -76,10 +80,12 @@ public class TeacherView extends VerticalLayout {
     }
 
     private void configureForm() {
-        binder.forField(name).asRequired("Tên không được trống!").bind(Teacher::getName, Teacher::setName);
-        binder.forField(mail).asRequired("Email không được trống!").withValidator(new EmailValidator("Mail không hợp lệ!")).bind(Teacher::getEmail, Teacher::setEmail);
-        binder.forField(department).bind(Teacher::getDepartment, Teacher::setDepartment);
-        binder.forField(password).bind(Teacher::getPassword, Teacher::setPassword);
+//        binder.forField(name).asRequired("Tên không được trống!").bind(Teacher::getName, Teacher::setName);
+//        binder.forField(mail).asRequired("Email không được trống!").withValidator(new EmailValidator("Mail không hợp lệ!")).bind(Teacher::getEmail, Teacher::setEmail);
+//        binder.forField(department).bind(Teacher::getDepartment, Teacher::setDepartment);
+//        binder.forField(password).bind(Teacher::getPassword, Teacher::setPassword);
+
+        binder.bindInstanceFields(this);
 
         save.addClickListener(e -> saveTeacher());
         delete.addClickListener(e -> deleteTeacher());

@@ -1,6 +1,6 @@
 package com.example.application.views;
 
-import com.example.entity.Student;
+import com.example.entity.person.implement.Student;
 import com.example.service.StudentService;
 import com.example.service.EnrollmentService;
 import com.vaadin.flow.component.button.Button;
@@ -26,11 +26,11 @@ import org.jspecify.annotations.NonNull;
 
 import java.text.Normalizer;
 
-@Route(value = "student", layout = MainLayout.class) 
+@Route(value = "student", layout = MainLayout.class)
 //@RouteAlias(value = "", layout = MainLayout.class) // vào luôn view này trong  route /
 @PageTitle("Student View | UniFlow")
 @RolesAllowed({"ADMIN"})
-public class StudentView  extends VerticalLayout {
+public class StudentView extends VerticalLayout {
     private final StudentService studentService;
     private final EnrollmentService enrollmentService;
 
@@ -48,7 +48,7 @@ public class StudentView  extends VerticalLayout {
     private final Button cancel = new Button("Hủy");
     private final Div form = new Div();
 
-//    private final Binder<Student> binder = new Binder<>(Student.class);
+    //    private final Binder<Student> binder = new Binder<>(Student.class);
     private final BeanValidationBinder<Student> binder = new BeanValidationBinder<>(Student.class);
     private ListDataProvider<Student> dataProvider; // Dùng list để sort
 
@@ -88,7 +88,7 @@ public class StudentView  extends VerticalLayout {
 
             ConfirmDialog confirm = new ConfirmDialog();
             confirm.setHeader("Xóa sinh viên?");
-            confirm.setText("Xóa \"" + editing.getName() + "\"? Không thể hoàn tác." );
+            confirm.setText("Xóa \"" + editing.getName() + "\"? Không thể hoàn tác.");
             confirm.setCancelable(true);
             confirm.setCancelText("Hủy");
             confirm.setConfirmText("Xóa");
@@ -104,14 +104,14 @@ public class StudentView  extends VerticalLayout {
     }
 
     private void saveStudent() {
-             if (binder.writeBeanIfValid(editing)) {
-                 studentService.save(editing); // service mới lưu xuống db
-                 refreshData();
-                 closeEditor();
-                 Notification.show("Đã lưu!");
-             } else {
-                 Notification.show("Dữ liệu không hợp lệ, vui lòng kiểm tra lại!");
-             }
+        if (binder.writeBeanIfValid(editing)) {
+            studentService.save(editing); // service mới lưu xuống db
+            refreshData();
+            closeEditor();
+            Notification.show("Đã lưu!");
+        } else {
+            Notification.show("Dữ liệu không hợp lệ, vui lòng kiểm tra lại!");
+        }
     }
 
     public static @NonNull String normalize(String s) {
@@ -123,15 +123,15 @@ public class StudentView  extends VerticalLayout {
     private void configureGrid() {
         // Thêm các cột vào bảng
         Grid.Column<Student> nameColumn = grid.addColumn(Student::getName)
-                                                .setHeader("Tên").setAutoWidth(true)
-                                                .setSortable(true)                    // bật sort cho cột, so sánh theo tên.
-                                                .setComparator(Student::getName);
+                .setHeader("Tên").setAutoWidth(true)
+                .setSortable(true)                    // bật sort cho cột, so sánh theo tên.
+                .setComparator(Student::getName);
 
         Grid.Column<Student> mailColumn = grid.addColumn(Student::getEmail)
-                                                .setHeader("Email").setAutoWidth(true);
+                .setHeader("Email").setAutoWidth(true);
 
         Grid.Column<Student> dodColumn = grid.addColumn(Student::getDob)
-                                                .setHeader("Ngày sinh").setAutoWidth(true);
+                .setHeader("Ngày sinh").setAutoWidth(true);
         grid.setSizeFull();
 
         dataProvider = new ListDataProvider<>(studentService.findByName(filter.getValue())); // ban đầu chưa nhập gì nên load hết db lần đầu
@@ -192,7 +192,10 @@ public class StudentView  extends VerticalLayout {
         });
         Button add = new Button("Thêm sinh viên");
         // Ấn thêm -> bỏ chọn dòng cũ + mở form
-        add.addClickListener(e -> {grid.asSingleSelect().clear(); editStudent(new Student());});
+        add.addClickListener(e -> {
+            grid.asSingleSelect().clear();
+            editStudent(new Student());
+        });
 
         HorizontalLayout toolbar = new HorizontalLayout(filter, add);
         toolbar.setSpacing(true);

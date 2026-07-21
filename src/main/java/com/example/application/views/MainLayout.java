@@ -7,18 +7,18 @@ import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.RouterLink;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.server.auth.AccessAnnotationChecker;
 import com.vaadin.flow.spring.security.AuthenticationContext;
 import jakarta.annotation.security.PermitAll;
 
 
+// ko cần annotation, đây là parent layout để view trỏ ngược lên.
 @PermitAll // cho mọi user đã đăng nhập
 public class MainLayout extends AppLayout { // Cho 3 vùng: thanh ngang NavBar bên trên, drawer bên trái và phần content rộng nhất bên phải
     private final AccessAnnotationChecker accessChecker;
@@ -48,7 +48,7 @@ public class MainLayout extends AppLayout { // Cho 3 vùng: thanh ngang NavBar b
         String name = authContext.getPrincipalName().orElse("?"); // lấy username từ security
         String role = String.join(", ", authContext.getGrantedRoles());
 
-        Span userInfo = new Span(name + " * " + role);
+        Span userInfo = new Span(name + " | " + role);
         userInfo.addClassName("user-info");
 
         Button logout = new Button("Đăng xuất", VaadinIcon.SIGN_OUT.create());

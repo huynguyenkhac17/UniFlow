@@ -49,9 +49,9 @@ public class DashboardView extends VerticalLayout {
         this.enrollmentService = enrollmentService;
 
         Div students = statCard("Sinh viên", studentService.count());
-        Div teachers = statCard("Giảng viên",  teacherService.count());
-        Div subjects = statCard("Môn học",  subjectService.count());
-        Div enrolls = statCard("Đăng kí",  enrollmentService.count());
+        Div teachers = statCard("Giảng viên", teacherService.count());
+        Div subjects = statCard("Môn học", subjectService.count());
+        Div enrolls = statCard("Đăng kí", enrollmentService.count());
 
         HorizontalLayout cards = new HorizontalLayout(students, teachers, subjects, enrolls);
         cards.setSpacing(true);
