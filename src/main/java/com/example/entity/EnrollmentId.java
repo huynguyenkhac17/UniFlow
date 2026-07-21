@@ -8,7 +8,7 @@ import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class EnrollmentId implements Serializable {
-    
+
     @Column(name = "studentId")
     private Long studentId;
 
@@ -22,26 +22,41 @@ public class EnrollmentId implements Serializable {
     }
 
     public EnrollmentId(Long studentId, Long subjectId, String semester) {
-        this.studentId = studentId;
-        this.subjectId = subjectId;
-        this.semester = semester;
+        setStudentId(studentId);
+        setSubjectId(subjectId);
+        setSemester(semester);
     }
 
-    public Long getStudentId() { return studentId; }
-    public void setStudentId(Long studentId) { this.studentId = studentId; }
-    public Long getSubjectId() { return subjectId; }
-    public void setSubjectId(Long subjectId) { this.subjectId = subjectId; }
-    public String getSemester() { return semester; }
-    public void setSemester(String semester) { this.semester = semester; }
+    public Long getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(Long studentId) {
+        this.studentId = studentId;
+    }
+
+    public Long getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(Long subjectId) {
+        this.subjectId = subjectId;
+    }
+
+    public String getSemester() {
+        return semester;
+    }
+
+    public void setSemester(String semester) {
+        this.semester = semester;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof EnrollmentId)) return false;
+        if (!(o instanceof EnrollmentId that)) return false;
 
-        EnrollmentId that = (EnrollmentId) o;
-
-        return Objects.equals(studentId, that.studentId) && Objects.equals(subjectId, that.subjectId) && Objects.equals(semester, that.semester);
+        return Objects.equals(this.getStudentId(), that.studentId) && Objects.equals(this.getSubjectId(), that.subjectId) && Objects.equals(this.getSemester(), that.semester);
     }
 
     @Override

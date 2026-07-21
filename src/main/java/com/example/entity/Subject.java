@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class Subject implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "subject_id")
+    @Column(name = "subjectId")
     private Long id;
 
     @Column(unique = true, nullable = false)
@@ -21,16 +21,32 @@ public class Subject implements Serializable {
     public Subject() {
     }
 
-    public Subject(Long id, String name, String credit) {
-        this.id = id;
-        this.name = name;
-        this.credit = Integer.parseInt(credit);
+    public Subject(String name, Integer credit) {
+        setName(name);
+        setCredit(credit);
     }
 
-    public Long getId() { return id;}
-    public void setId(Long subjectId) { this.id = subjectId;}
-    public String getName() { return name;}
-    public void setName(String name) { this.name = name;}
-    public Integer getCredit() { return credit;}
-    public void setCredit(Integer credit) { this.credit = credit;}
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long subjectId) {
+        this.id = subjectId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getCredit() {
+        return credit;
+    }
+
+    public void setCredit(Integer credit) {
+        this.credit = credit;
+    }
 }

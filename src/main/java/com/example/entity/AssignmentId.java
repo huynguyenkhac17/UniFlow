@@ -19,8 +19,8 @@ public class AssignmentId implements Serializable{
     }
 
     public AssignmentId(Long teacherId, Long subjectId) {
-        this.teacherId = teacherId;
-        this.subjectId = subjectId;
+        setTeacherId(teacherId);
+        setSubjectId(subjectId);
     }
 
     public Long getTeacherId() { return teacherId; }
@@ -31,11 +31,9 @@ public class AssignmentId implements Serializable{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof AssignmentId)) return false;
+        if (!(o instanceof AssignmentId that)) return false;
 
-        AssignmentId that = (AssignmentId) o;
-
-        return Objects.equals(teacherId, that.teacherId) && Objects.equals(subjectId, that.subjectId);
+        return Objects.equals(this.getTeacherId(), that.teacherId) && Objects.equals(this.getSubjectId(), that.subjectId);
     }
 
     @Override
