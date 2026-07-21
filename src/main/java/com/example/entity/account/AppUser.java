@@ -1,9 +1,9 @@
 package com.example.entity.account;
 
-import com.example.entity.Role;
-import com.example.entity.Student;
-import com.example.entity.Teacher;
+import com.example.entity.person.Role;
+import com.example.entity.person.Person;
 import jakarta.persistence.*;
+
 import java.io.Serializable;
 
 @Entity
@@ -16,7 +16,7 @@ public class AppUser implements Serializable {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String email; // dùng luôn làm username
+    private String username; // làm username
 
     @Column(nullable = false)
     private String passwordHash;
@@ -26,28 +26,32 @@ public class AppUser implements Serializable {
     private Role role;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "teacher_id", unique = true)
-    private Teacher teacher;
+    @JoinColumn(name = "personId", unique = true)
+    private Person person;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "student_id", unique = true)
-    private Student student;
-
-    public AppUser(String email, String passwordHash, Role role) {
-        this.email = email;
-        this.passwordHash = passwordHash;
+    public AppUser(String username, String passwordHash, Role role) {
+        setUsername(username);
+        setPasswordHash(passwordHash);
         this.role = role;
     }
 
     public AppUser() {
     }
 
-    public Long getId() {
-        return id;
+    public Person getPerson() {
+        return person;
     }
 
-    public String getEmail() {
-        return email;
+    public void setPerson(Person person) {
+        this.person = person;
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public String getUsername() {
+        return this.username;
     }
 
     public String getPasswordHash() {
@@ -58,20 +62,12 @@ public class AppUser implements Serializable {
         return role;
     }
 
-    public Student getStudent() {
-        return student;
-    }
-
-    public Teacher getTeacher() {
-        return teacher;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setPasswordHash(String passwordHash) {
@@ -80,13 +76,5 @@ public class AppUser implements Serializable {
 
     public void setRole(Role role) {
         this.role = role;
-    }
-
-    public void setTeacher(Teacher teacher) {
-        this.teacher = teacher;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
     }
 }
