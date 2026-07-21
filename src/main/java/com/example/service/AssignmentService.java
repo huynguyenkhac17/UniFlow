@@ -8,7 +8,7 @@ import com.example.dto.AssignmentDto;
 import com.example.entity.Assignment;
 import com.example.entity.AssignmentId;
 import com.example.entity.Subject;
-import com.example.entity.Teacher;
+import com.example.entity.person.implement.Teacher;
 import com.example.repository.AssignmentRepository;
 
 import jakarta.transaction.Transactional;

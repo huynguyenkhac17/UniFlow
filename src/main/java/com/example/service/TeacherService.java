@@ -1,6 +1,6 @@
 package com.example.service;
 
-import com.example.entity.Teacher;
+import com.example.entity.person.implement.Teacher;
 import com.example.repository.TeacherRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;

@@ -7,11 +7,9 @@ import org.springframework.stereotype.Service;
 import com.example.dto.EnrollmentDto;
 import com.example.entity.Enrollment;
 import com.example.entity.EnrollmentId;
-import com.example.entity.Student;
+import com.example.entity.person.implement.Student;
 import com.example.entity.Subject;
 import com.example.repository.EnrollmentRepository;
-
-import jakarta.transaction.Transactional;
 
 @Service
 public class EnrollmentService {

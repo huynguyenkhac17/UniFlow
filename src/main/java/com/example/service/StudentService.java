@@ -1,6 +1,6 @@
 package com.example.service;
 
-import com.example.entity.Student;
+import com.example.entity.person.implement.Student;
 import com.example.repository.StudentRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;

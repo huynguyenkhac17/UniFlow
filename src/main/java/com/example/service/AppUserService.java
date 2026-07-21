@@ -1,7 +1,7 @@
 package com.example.service;
 
-import com.example.entity.account.AccountOwner;
 import com.example.entity.account.AppUser;
+import com.example.entity.person.Person;
 import com.example.repository.AppUserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,24 +18,23 @@ public class AppUserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // Chưa có tk -> tạo mới, nếu có rồi thì thôi
+    // person chưa có tk -> tạo mới, nếu có rồi thì thôi
     @Transactional
-    public void sync(AccountOwner accountOwner) {
-        if (appUserRepository.findByEmail(accountOwner.getEmail()).isEmpty()) {
+    public void sync(Person person) {
+        if (appUserRepository.findByEmail(person.getEmail()).isEmpty()) { // tài khoản chính là email
             AppUser appUser = new AppUser(
-                    accountOwner.getEmail(),
-                    passwordEncoder.encode("123456"),
-                    accountOwner.getRole()
+                    person.getEmail(),
+                    passwordEncoder.encode("123456"), // default pass
+                    person.getRole()
             );
 
-            accountOwner.linkTo(appUser);
             appUserRepository.save(appUser);
         }
     }
 
     @Transactional
-    public void deleteAccount(AccountOwner accountOwner) {
-        appUserRepository.findByEmail(accountOwner.getEmail()).ifPresent(appUserRepository::delete);
+    public void deleteAccount(Person person) {
+        appUserRepository.findByEmail(person.getEmail()).ifPresent(appUserRepository::delete);
     }
     
 }

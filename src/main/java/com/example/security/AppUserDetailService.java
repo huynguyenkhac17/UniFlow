@@ -18,7 +18,7 @@ public class AppUserDetailService implements UserDetailsService {  // contract c
         this.appUserRepository = appUserRepository;
     }
 
-    // SS goị qua đây để lấy thông tin khi đăng nhập
+    // SpringSecurity goị qua đây để lấy thông tin khi đăng nhập
     @Override
     public UserDetails loadUserByUsername(@NonNull String username) throws UsernameNotFoundException {
         AppUser u = appUserRepository.findByEmail(username)
@@ -27,7 +27,7 @@ public class AppUserDetailService implements UserDetailsService {  // contract c
         return User
                 .withUsername(u.getEmail())
                 .password(u.getPasswordHash())
-                .authorities(new SimpleGrantedAuthority("ROLE_" + u.getRole().name()))
+                .authorities(new SimpleGrantedAuthority("ROLE_" + u.getRole().name())) // thằng này và vaadinsercurity mặc định ko có prefix
                 .build();
     }
 }
